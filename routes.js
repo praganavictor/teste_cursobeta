@@ -1,11 +1,18 @@
 const routes = require("express").Router();
 
-const courseController = require("./src/controllers/courseController");
+const auth = require("./src/middlewares/auth");
 
-routes.get("/courses", courseController.index);
-routes.get("/course/:id", courseController.show);
-routes.post("/course", courseController.store);
-routes.put("/course/:id", courseController.update);
-routes.delete("/course/:id", courseController.destroy);
+const courseController = require("./src/controllers/courseController");
+const authController = require("./src/controllers/authController");
+
+routes.post("/register", authController.register);
+routes.post("/authenticate", authController.authenticate);
+
+routes.get("/courses", auth, courseController.index);
+routes.get("/course/:id", auth, courseController.show);
+routes.post("/course", auth, courseController.store);
+routes.put("/course/:id", auth, courseController.update);
+routes.delete("/course/:id", auth, courseController.destroy);
+routes.get("/search", auth, courseController.search);
 
 module.exports = routes;

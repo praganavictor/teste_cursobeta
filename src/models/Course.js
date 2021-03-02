@@ -8,10 +8,16 @@ const CourseSchema = new mongoose.Schema(
       required: true
     },
     descricao: {
-      type: String
+      type: String,
+      required: true
+    },
+    categoria: {
+      type: String,
+      required: true
     },
     link: {
-      type: String
+      type: String,
+      required: true
     }
   },
   {

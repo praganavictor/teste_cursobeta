@@ -24,7 +24,12 @@ module.exports = {
   },
 
   async store(req, res) {
+    const { nome } = req.body;
+
     try {
+      if (await Course.findOne({ nome }))
+        res.status(400).send({ error: "Curso já existe" });
+
       const course = await Course.create(req.body);
 
       return res.json(course);
@@ -52,6 +57,20 @@ module.exports = {
       return res.send({ msg: "Apagado com sucesso" });
     } catch (error) {
       return res.status(400).send({ msg: `Erro ao destruir a curso`, error });
+    }
+  },
+
+  async search(req, res) {
+    try {
+      const { search } = req.query;
+      const courses1 = await Course.find({ nome: { $regex: search } });
+      const courses2 = await Course.find({ categoria: { $regex: search } });
+
+      const courses = [...courses1, ...courses2];
+
+      return res.json(courses);
+    } catch (error) {
+      return res.status(400).send({ msg: `Erro ao carregar os cursos`, error });
     }
   }
 };

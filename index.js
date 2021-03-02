@@ -11,7 +11,6 @@ mongoose.connect(process.env.MONGO_URL, {
   useUnifiedTopology: true,
   useFindAndModify: false
 });
-mongoose.set("useCreateIndex", true);
 
 app.use(express.json());
 app.use(cors());

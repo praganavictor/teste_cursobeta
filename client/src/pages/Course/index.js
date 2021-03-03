@@ -9,6 +9,8 @@ import { courseselectors } from "../../store/selectors/courses";
 
 export default function Courses() {
   const [error, setError] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -19,7 +21,8 @@ export default function Courses() {
 
     async function searchCourses() {
       try {
-        const response = await api.get("/courses");
+        const response = await api.get(`/courses?page=${currentPage}`);
+        setTotalPages(response.data.pages);
         dispatch(courseActions.SetCourses(response.data.docs));
       } catch (err) {
         console.log(err);
@@ -27,7 +30,7 @@ export default function Courses() {
       }
     }
     searchCourses();
-  }, []);
+  }, [currentPage]);
 
   function handleSingOut() {
     history.push("/courses");
@@ -54,6 +57,35 @@ export default function Courses() {
       setError("Erro ao buscar os cursos");
     }
   }
+
+  // async function handlePreviousPage() {
+  //   setCurrentPage(currentPage - 1);
+  //   try {
+  //     console.log(currentPage);
+  //     const response = await api.get(`/courses?page=${currentPage}`);
+  //     console.log(response);
+  //     dispatch(courseActions.SetCourses(response.data.docs));
+  //   } catch (err) {
+  //     console.log(err);
+  //     setError("Erro ao buscar os cursos");
+  //   }
+  // }
+  // useEffect(() => {
+  //   async function handleChancePage() {
+  //     try {
+  //       console.log(currentPage);
+  //       console.log(totalPages);
+  //       if (currentPage > totalPages) setCurrentPage(currentPage - 1);
+  //       const response = await api.get(`/courses?page=${currentPage}`);
+  //       console.log(response);
+  //       dispatch(courseActions.SetCourses(response.data.docs));
+  //     } catch (err) {
+  //       console.log(err);
+  //       setError("Erro ao buscar os cursos");
+  //     }
+  //   }
+  //   handleChancePage();
+  // }, [currentPage]);
 
   return (
     <>
@@ -83,6 +115,20 @@ export default function Courses() {
               </div>
             ))}
         </section>
+        <hr />
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(currentPage - 1)}
+        >
+          Back page
+        </button>
+        {currentPage} de {totalPages}
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(currentPage + 1)}
+        >
+          Next page
+        </button>
       </div>
     </>
   );

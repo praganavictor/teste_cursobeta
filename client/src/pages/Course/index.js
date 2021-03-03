@@ -58,35 +58,6 @@ export default function Courses() {
     }
   }
 
-  // async function handlePreviousPage() {
-  //   setCurrentPage(currentPage - 1);
-  //   try {
-  //     console.log(currentPage);
-  //     const response = await api.get(`/courses?page=${currentPage}`);
-  //     console.log(response);
-  //     dispatch(courseActions.SetCourses(response.data.docs));
-  //   } catch (err) {
-  //     console.log(err);
-  //     setError("Erro ao buscar os cursos");
-  //   }
-  // }
-  // useEffect(() => {
-  //   async function handleChancePage() {
-  //     try {
-  //       console.log(currentPage);
-  //       console.log(totalPages);
-  //       if (currentPage > totalPages) setCurrentPage(currentPage - 1);
-  //       const response = await api.get(`/courses?page=${currentPage}`);
-  //       console.log(response);
-  //       dispatch(courseActions.SetCourses(response.data.docs));
-  //     } catch (err) {
-  //       console.log(err);
-  //       setError("Erro ao buscar os cursos");
-  //     }
-  //   }
-  //   handleChancePage();
-  // }, [currentPage]);
-
   return (
     <>
       <div>

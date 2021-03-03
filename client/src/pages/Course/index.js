@@ -13,16 +13,13 @@ export default function Courses() {
 
   const dispatch = useDispatch();
   const allCourses = useSelector(courseselectors.AllCourses);
-  const activeCourse = useSelector(courseselectors.ActiveCourse);
 
   useEffect(() => {
     dispatch(courseActions.setActiveCourse({}));
-    dispatch(courseActions.SetCourses());
 
     async function searchCourses() {
       try {
         const response = await api.get("/courses");
-        console.log(response);
         dispatch(courseActions.SetCourses(response.data.docs));
       } catch (err) {
         console.log(err);
@@ -30,7 +27,7 @@ export default function Courses() {
       }
     }
     searchCourses();
-  }, [dispatch]);
+  }, []);
 
   function handleSingOut() {
     history.push("/courses");
@@ -40,11 +37,24 @@ export default function Courses() {
     history.push("/course/new");
   }
 
+  function handleEditCourse(course) {
+    dispatch(courseActions.setActiveCourse(course));
+    history.push(`/course/${course._id}/edit`);
+  }
+
   function handleSetActiveCourse(course) {
     dispatch(courseActions.setActiveCourse(course));
   }
+  async function handleDeleteCourse(course) {
+    try {
+      api.delete(`/course/${course._id}`);
+      history.go(0);
+    } catch (error) {
+      console.log(error);
+      setError("Erro ao buscar os cursos");
+    }
+  }
 
-  console.log(activeCourse);
   return (
     <>
       <div>
@@ -65,6 +75,10 @@ export default function Courses() {
                   <h5>{course.categoria}</h5>
                   <p>{course.descricao}</p>
                 </Link>
+                <button onClick={() => handleEditCourse(course)}>Edit</button>
+                <button onClick={() => handleDeleteCourse(course)}>
+                  Delete
+                </button>
                 <hr />
               </div>
             ))}

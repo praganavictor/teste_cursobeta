@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactPlayer from "react-player";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { courseselectors } from "../../store/selectors/courses";
 
 export default function Course() {
-  const [error, setError] = useState("");
   const history = useHistory();
   const activeCourse = useSelector(courseselectors.ActiveCourse);
 
@@ -17,7 +16,6 @@ export default function Course() {
   return (
     <>
       <div>
-        {error && <p>{error}</p>}
         <button onClick={handleBack}>voltar</button>
         <h1>Show</h1>
         <ReactPlayer url={activeCourse.link} />

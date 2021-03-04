@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import _ from "lodash";
+
+import "./edit.css";
 
 import api from "../../service/api";
 import { courseselectors } from "../../store/selectors/courses";
@@ -24,9 +27,9 @@ export default function NewCourse() {
   async function handleSubmit(e) {
     e.preventDefault();
     const data = {
-      nome: nome.trim(),
+      nome: _.startCase(nome.trim()),
       descricao: descricao.trim(),
-      categoria: categoria.trim(),
+      categoria: _.startCase(categoria.trim()),
       link: link.trim()
     };
 
@@ -51,10 +54,12 @@ export default function NewCourse() {
 
   return (
     <>
-      <div>
+      <div className="new">
+        <header>
+          <h1>Edit</h1>
+          <button onClick={handleBack}>Voltar</button>
+        </header>
         {error && <p>{error}</p>}
-        <h1>Edit</h1>
-        <button onClick={handleBack}>voltar</button>
         <form onSubmit={handleSubmit}>
           <input
             type="text"

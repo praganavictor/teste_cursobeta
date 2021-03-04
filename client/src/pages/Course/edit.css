@@ -1,0 +1,59 @@
+.edit {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+}
+
+.edit header h1 {
+  color: #fff;
+  font-size: 3em;
+  font-weight: lighter;
+}
+
+.edit button {
+  color: #fff;
+  padding: 0.5em;
+  font-size: 1em;
+  background-color: #2a363f;
+  border: 1px solid #697178;
+  border-radius: 0.3em;
+  cursor: pointer;
+}
+
+.edit form {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit form input,
+.edit form textarea {
+  width: 80%;
+  color: #fff;
+  background-color: #2a363f;
+  padding: 1em;
+  margin-bottom: 0.5em;
+  border: 1px solid #697178;
+  font-size: 1em;
+}
+
+.edit form input:focus,
+.edit form textarea:focus {
+  border: 1px solid #6ed9a0;
+}
+
+.edit form button {
+  width: 25%;
+  background-color: #6ed9a0;
+  border: 1px solid #6ed9a0;
+}

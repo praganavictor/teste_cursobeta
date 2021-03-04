@@ -3,6 +3,8 @@ import { login, isAuthenticated } from "../../service/auth";
 import { Link, useHistory } from "react-router-dom";
 import api from "../../service/api";
 
+import "./main.css";
+
 export default function SingIn() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -29,25 +31,22 @@ export default function SingIn() {
 
   return (
     <>
-      <div>
-        <form onSubmit={handleSignIn}>
-          <span>Login</span>
+      <div className="login">
+        <h3>Login</h3>
+        <form onSubmit={handleSignIn} className="formLogin">
           {error && <p>{error}</p>}
-          <div>
-            <input
-              type="email"
-              placeholder="Email"
-              onChange={e => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Senha"
-              onChange={e => setSenha(e.target.value)}
-            />
-            <button type="submit">Entrar</button>
-            <hr />
-            <Link to="/signup">Criar conta grátis</Link>
-          </div>
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={e => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Senha"
+            onChange={e => setSenha(e.target.value)}
+          />
+          <button type="submit">Entrar</button>
+          <Link to="/signup">Criar conta</Link>
         </form>
       </div>
     </>

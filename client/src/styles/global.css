@@ -7,10 +7,18 @@
 
 body,
 html {
-  background: #eee;
+  background: #2a363f;
   font-family: sans-serif;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
   height: 100%;
   width: 100%;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none;
+  color: #000;
 }

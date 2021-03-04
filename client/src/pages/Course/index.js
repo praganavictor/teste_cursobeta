@@ -4,6 +4,8 @@ import { Link, useHistory } from "react-router-dom";
 import _ from "lodash";
 import api from "../../service/api";
 
+import "./main.css";
+
 import { courseActions } from "../../store/actions/courses";
 import { courseselectors } from "../../store/selectors/courses";
 
@@ -37,7 +39,7 @@ export default function Courses() {
   }, [currentPage]);
 
   function handleSingOut() {
-    history.push("/courses");
+    history.push("/sair");
   }
 
   function handleNewCourse() {
@@ -78,12 +80,18 @@ export default function Courses() {
 
   return (
     <>
-      <div>
-        {error && <p>{error}</p>}
-        <section>
-          <button onClick={handleSingOut}>Sair</button>
+      <div className="main">
+        <header>
           <h1>Cursos</h1>
-          <button onClick={handleNewCourse}>Novo Curso</button>
+          <button onClick={handleSingOut} className="leaveButton">
+            Sair
+          </button>
+        </header>
+        {error && <p>{error}</p>}
+        <section className="mainActions">
+          <button onClick={handleNewCourse} className="newCourse">
+            Novo Curso
+          </button>
           <form>
             <input
               type="text"
@@ -92,40 +100,51 @@ export default function Courses() {
             />
             <input type="submit" value="Pesquisar" onClick={handleSearch} />
           </form>
-          <hr />
+        </section>
+        <section className="content">
           {allCourses &&
             allCourses.map(course => (
-              <div key={course._id}>
+              <div key={course._id} className="course">
                 <Link
                   onClick={() => handleSetActiveCourse(course)}
                   to={`course/${course._id}`}
                 >
-                  <h4>{course.nome}</h4>
+                  <h3>{course.nome}</h3>
                   <h5>{course.categoria}</h5>
                   <p>{course.descricao}</p>
                 </Link>
-                <button onClick={() => handleEditCourse(course)}>Edit</button>
-                <button onClick={() => handleDeleteCourse(course)}>
-                  Delete
-                </button>
-                <hr />
+                <div className="courseActions">
+                  <button
+                    onClick={() => handleEditCourse(course)}
+                    className="warning"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteCourse(course)}
+                    className="danger"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             ))}
         </section>
-        <hr />
-        <button
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage(currentPage - 1)}
-        >
-          Back page
-        </button>
-        {currentPage} de {totalPages}
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage(currentPage + 1)}
-        >
-          Next page
-        </button>
+        <footer>
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
+          >
+            Back page
+          </button>
+          {currentPage} de {totalPages}
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(currentPage + 1)}
+          >
+            Next page
+          </button>
+        </footer>
       </div>
     </>
   );

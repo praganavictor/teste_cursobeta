@@ -3,11 +3,20 @@ const Course = require("../models/Course");
 module.exports = {
   async index(req, res) {
     try {
-      const { page = 1 } = req.query;
+      const { page = 1, limit = 5 } = req.query;
 
-      const courses = await Course.paginate({}, { page, limit: 10 });
+      const courses = await Course.find()
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .exec();
 
-      return res.json(courses);
+      const count = await Course.countDocuments();
+
+      return res.json({
+        courses,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page
+      });
     } catch (error) {
       return res.status(400).send({ msg: `Erro ao carregar os cursos`, error });
     }
@@ -62,13 +71,23 @@ module.exports = {
 
   async search(req, res) {
     try {
-      const { search } = req.query;
-      const courses1 = await Course.find({ nome: { $regex: search } });
-      const courses2 = await Course.find({ categoria: { $regex: search } });
+      const { search, page = 1, limit = 5 } = req.query;
+      const courses = await Course.find({
+        $or: [{ nome: { $regex: search } }, { categoria: { $regex: search } }]
+      })
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .exec();
 
-      const courses = [...courses1, ...courses2];
+      const count = await Course.find({
+        $or: [{ nome: { $regex: search } }, { categoria: { $regex: search } }]
+      });
 
-      return res.json(courses);
+      return res.json({
+        courses,
+        totalPages: Math.ceil(count.length / limit),
+        currentPage: page
+      });
     } catch (error) {
       return res.status(400).send({ msg: `Erro ao carregar os cursos`, error });
     }
